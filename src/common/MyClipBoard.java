@@ -1,6 +1,6 @@
 package common;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -20,5 +20,9 @@ public class MyClipBoard {
 		} catch (UnsupportedFlavorException | IOException e) {
 			return "";
 		}
+	}
+
+	public static Image getImage() throws IOException, UnsupportedFlavorException {
+		return (Image) clip.getData(DataFlavor.imageFlavor);
 	}
 }

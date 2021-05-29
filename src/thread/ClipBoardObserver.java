@@ -1,8 +1,19 @@
 package thread;
 
+import client.MyCloudVisionClient;
+import com.google.common.io.ByteArrayDataInput;
 import common.MyClipBoard;
 import setting.Setting;
 import worker.TranslationWorker;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.image.*;
+import java.awt.image.renderable.RenderedImageFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Hashtable;
 
 public class ClipBoardObserver implements Runnable {
 
@@ -38,8 +49,39 @@ public class ClipBoardObserver implements Runnable {
 
 			// translation worker run
 			String ct = MyClipBoard.getText();
-			TranslationWorker.run(ct);
+//			TranslationWorker.run(ct);
 			lastTimeClipText = ct;
+
+			try {
+				Image image = MyClipBoard.getImage();
+				PixelGrabber pixelGrabber = new PixelGrabber(image, 0, 0, -1, -1, false);
+				pixelGrabber.grabPixels();
+				ColorModel cm = pixelGrabber.getColorModel();
+
+				final int w = pixelGrabber.getWidth();
+				final int h = pixelGrabber.getHeight();
+				WritableRaster raster = cm.createCompatibleWritableRaster(w, h);
+				BufferedImage renderedImage =
+						new BufferedImage(
+								cm,
+								raster,
+								cm.isAlphaPremultiplied(),
+								new Hashtable());
+//				renderedImage.getRaster().setDataElements(0, 0, w, h, pixelGrabber.getPixels());
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(renderedImage, "PNG", baos);
+				byte[] bytes = baos.toByteArray();
+
+
+				MyCloudVisionClient.request(bytes);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (UnsupportedFlavorException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 }

@@ -55,8 +55,8 @@ public class TranslationWorker {
 		translateService.shutdown();
 
 		/*speech to text run and  playback text to speech result
-		 * clipbord text is English ->Clipbord text(=English) to speech
-		 * clipbord text is javanese -> Translation result(=English) to speech
+		 * clipboard text is English ->Clipboard text(=English) to speech
+		 * clipboard text is javanese -> Translation result(=English) to speech
 		 */
 		Runnable textToSpeech = new Runnable() {
 			@Override

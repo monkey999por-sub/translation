@@ -108,7 +108,4 @@
 			<artifactId>google-cloud-vision</artifactId>
 		</dependency>
 	</dependencies>
-
-
-
 </project>

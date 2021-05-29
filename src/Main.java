@@ -1,3 +1,4 @@
+import client.MyCloudVisionClient;
 import common.LangDetecter;
 import setting.Setting;
 import thread.ClipBoardObserver;
@@ -8,6 +9,7 @@ public class Main {
 		Setting.load(args[0]);
 		LangDetecter.init();
 		welcomePrint();
+
 
 		// クリップボードを監視し、変更があった場合は翻訳者(TranslationWorker)を呼び出し 別スレッドで実行
 		new Thread(new ClipBoardObserver()).start();
